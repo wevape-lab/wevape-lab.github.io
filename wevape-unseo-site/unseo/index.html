@@ -325,6 +325,21 @@ body{margin:0;background:var(--ground);color:var(--ink);font-family:'Noto Sans K
 .ioscard ol li{color:#C9BCDD}
 .iosclose{margin-top:17px;width:100%;border:0;border-radius:12px;background:#FF2E88;color:#fff;
   font-weight:800;font-size:15px;padding:13px;font-family:inherit;cursor:pointer;-webkit-appearance:none}
+
+.sharerow{margin:14px 15px 0}
+.sharebtn{width:100%;display:flex;align-items:center;justify-content:center;gap:9px;
+  border:1px solid rgba(255,255,255,.20);border-radius:13px;background:rgba(255,255,255,.05);
+  color:#F7F1FF;font-family:inherit;font-size:14.5px;font-weight:700;padding:13px;
+  cursor:pointer;-webkit-appearance:none}
+.sharebtn:active{background:rgba(255,255,255,.10)}
+.sharebtn svg{width:18px;height:18px;flex:none;stroke:#E8C87E;fill:none;
+  stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.toast{position:fixed;left:50%;bottom:calc(28px + env(safe-area-inset-bottom));
+  transform:translateX(-50%);z-index:70;background:#2B1C3D;color:#F7F1FF;
+  border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:11px 20px;
+  font-size:13.5px;font-weight:700;white-space:nowrap;box-shadow:0 8px 28px rgba(0,0,0,.45);
+  font-family:'Noto Sans KR',system-ui,-apple-system,'Hiragino Sans','Microsoft YaHei',sans-serif}
+.toast[hidden]{display:none!important}
 </style>
 </head>
 <body>
@@ -408,6 +423,7 @@ body{margin:0;background:var(--ground);color:var(--ink);font-family:'Noto Sans K
               <div class="sbrow"><span class="sbk" data-i="sb2">위치</span><span class="sbv" data-i="sb2v">운서역 앞 버터플라이 빌딩 1층</span></div>
               <a class="mapbtn" href="https://share.google/fu0tGp7Dxd2cpCZPQ" target="_blank" rel="noopener" data-i="mapb">지도에서 보기</a>
             </div>
+            <div class="sharerow"><button type="button" class="sharebtn" id="sharebtn"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="2.6"/><circle cx="6" cy="12" r="2.6"/><circle cx="18" cy="19" r="2.6"/><path d="M8.3 10.8 15.7 6.4M8.3 13.2 15.7 17.6"/></svg><span data-i="shb">이 페이지 공유하기</span></button></div>
             <div class="installbox" id="installbox" hidden><svg class="ibi" viewBox="0 0 44 44" aria-hidden="true"><rect width="44" height="44" rx="11" fill="#0A0413"/><path d="M11.7 12.5 L16.9 31.5 L22 20.9 L27.1 31.5 L32.3 12.5" fill="none" stroke="#FF2E88" stroke-width="4.6" stroke-linecap="round" stroke-linejoin="round"/></svg><div class="ibt"><b data-i="insth">앱으로 설치</b><i data-i="instd">홈 화면에서 바로 열 수 있습니다</i></div><button type="button" class="ibbtn" id="installbtn" data-i="instb">설치</button></div>
             <div class="sfoot" data-i="foot">위베이프는 버블몬 인천 · 경기 총판입니다<br>문의는 매장 직원에게</div>
           </div>
@@ -604,6 +620,7 @@ body{margin:0;background:var(--ground);color:var(--ink);font-family:'Noto Sans K
         </div>
 
       </div>
+    <div class="toast" id="toast" hidden></div>
     <div class="iosheet" id="iosheet" hidden>
       <div class="ioscard">
         <b data-i="iosh">홈 화면에 추가</b>
@@ -638,7 +655,7 @@ function track(type, value){
 
 var FL={"ko": {"strawberry-n": "스트로베리 요거트", "strawberry-d": "딸기와 요거트, 부드럽게", "alpo-n": "알포 프레쉬", "alpo-d": "알로에와 포도의 조화", "aqua-n": "아쿠아 블루 오션", "aqua-d": "망고·파인애플·용과·코코넛", "pina-n": "허니 피나 콜라다", "pina-d": "피나콜라다 칵테일 맛", "lemonade-n": "레모네이드", "lemonade-d": "상큼한 레몬에이드", "peachmango-n": "피치 망고", "peachmango-d": "복숭아와 망고", "pineapple-n": "파인애플 애플", "pineapple-d": "파인애플과 사과", "watermelon-n": "워터멜론", "watermelon-d": "잘 익은 수박 그대로", "peachice-n": "피치 아이스", "peachice-d": "시원한 복숭아", "mango-n": "망고", "mango-d": "잘 익은 망고 그대로", "miami-n": "마이애미 민트", "miami-d": "시원한 민트 사탕", "blueraz-n": "블루라즈", "blueraz-d": "블루베리와 라즈베리", "wmblue-n": "워터멜론 블루베리", "wmblue-d": "수박에 블루베리", "bluecherry-n": "블루베리 체리", "bluecherry-d": "블루베리와 체리", "muscat-n": "샤인머스캣", "muscat-d": "달콤한 청포도", "t딸기요거트-n": "딸기요거트", "t딸기요거트-d": "딸기와 요거트, 부드럽게", "t아쿠아-n": "아쿠아", "t아쿠아-d": "망고·파인애플·용과·코코넛", "t핑크레몬에이드-n": "핑크레몬에이드", "t핑크레몬에이드-d": "상큼한 핑크 레몬에이드", "t쿨민트-n": "쿨민트", "t쿨민트-d": "단맛 없이 깔끔한 민트", "t피치아이스-n": "피치아이스", "t피치아이스-d": "시원한 복숭아", "t마이애미민트-n": "마이애미민트", "t마이애미민트-d": "시원한 민트 사탕", "t망고아이스-n": "망고아이스", "t망고아이스-d": "시원한 망고", "t더블애플-n": "더블애플", "t더블애플-d": "적사과와 청사과", "t그린그레이프-n": "그린그레이프", "t그린그레이프-d": "달콤한 청포도", "t자스민티-n": "자스민 티", "t자스민티-d": "단맛 없는 자스민 녹차"}, "ja": {"strawberry-n": "ストロベリーヨーグルト", "strawberry-d": "いちごとヨーグルト、まろやか", "alpo-n": "アロエ&グレープ", "alpo-d": "アロエとぶどうの組み合わせ", "aqua-n": "アクアブルーオーシャン", "aqua-d": "マンゴー・パイン・ドラゴンフルーツ・ココナッツ", "pina-n": "ハニーピニャコラーダ", "pina-d": "ピニャコラーダのカクテル風味", "lemonade-n": "レモネード", "lemonade-d": "爽やかなレモネード", "peachmango-n": "ピーチマンゴー", "peachmango-d": "桃とマンゴー", "pineapple-n": "パイナップルアップル", "pineapple-d": "パイナップルとりんご", "watermelon-n": "ウォーターメロン", "watermelon-d": "完熟スイカそのまま", "peachice-n": "ピーチアイス", "peachice-d": "冷たい桃", "mango-n": "マンゴー", "mango-d": "完熟マンゴーそのまま", "miami-n": "マイアミミント", "miami-d": "冷たいミントキャンディ", "blueraz-n": "ブルーラズ", "blueraz-d": "ブルーベリーとラズベリー", "wmblue-n": "ウォーターメロンブルーベリー", "wmblue-d": "スイカにブルーベリー", "bluecherry-n": "ブルーベリーチェリー", "bluecherry-d": "ブルーベリーとチェリー", "muscat-n": "シャインマスカット", "muscat-d": "甘いシャインマスカット", "t딸기요거트-n": "ストロベリーヨーグルト", "t딸기요거트-d": "いちごとヨーグルト、まろやか", "t아쿠아-n": "アクア", "t아쿠아-d": "マンゴー・パイン・ドラゴンフルーツ・ココナッツ", "t핑크레몬에이드-n": "ピンクレモネード", "t핑크레몬에이드-d": "爽やかなピンクレモネード", "t쿨민트-n": "クールミント", "t쿨민트-d": "甘さなし、すっきりミント", "t피치아이스-n": "ピーチアイス", "t피치아이스-d": "冷たい桃", "t마이애미민트-n": "マイアミミント", "t마이애미민트-d": "冷たいミントキャンディ", "t망고아이스-n": "マンゴーアイス", "t망고아이스-d": "冷たいマンゴー", "t더블애플-n": "ダブルアップル", "t더블애플-d": "赤りんごと青りんご", "t그린그레이프-n": "グリーングレープ", "t그린그레이프-d": "甘い青ぶどう", "t자스민티-n": "ジャスミンティー", "t자스민티-d": "甘さのないジャスミン緑茶"}, "zh": {"strawberry-n": "草莓酸奶", "strawberry-d": "草莓与酸奶，柔和顺口", "alpo-n": "芦荟葡萄", "alpo-d": "芦荟与葡萄的搭配", "aqua-n": "热带冰爽水", "aqua-d": "芒果・菠萝・火龙果・椰子", "pina-n": "蜂蜜椰林飘香", "pina-d": "椰林飘香鸡尾酒风味", "lemonade-n": "柠檬水", "lemonade-d": "清爽柠檬水", "peachmango-n": "蜜桃芒果", "peachmango-d": "蜜桃与芒果", "pineapple-n": "菠萝苹果", "pineapple-d": "菠萝与苹果", "watermelon-n": "西瓜", "watermelon-d": "成熟西瓜原味", "peachice-n": "冰镇蜜桃", "peachice-d": "冰镇蜜桃", "mango-n": "芒果", "mango-d": "成熟芒果原味", "miami-n": "迈阿密薄荷", "miami-d": "清凉薄荷糖", "blueraz-n": "蓝莓树莓", "blueraz-d": "蓝莓与树莓", "wmblue-n": "西瓜蓝莓", "wmblue-d": "西瓜配蓝莓", "bluecherry-n": "蓝莓樱桃", "bluecherry-d": "蓝莓与樱桃", "muscat-n": "阳光玫瑰", "muscat-d": "香甜青提", "t딸기요거트-n": "草莓酸奶", "t딸기요거트-d": "草莓与酸奶，柔和顺口", "t아쿠아-n": "热带冰爽水", "t아쿠아-d": "芒果・菠萝・火龙果・椰子", "t핑크레몬에이드-n": "粉红柠檬水", "t핑크레몬에이드-d": "清爽粉红柠檬水", "t쿨민트-n": "清凉薄荷", "t쿨민트-d": "无甜味，纯净薄荷", "t피치아이스-n": "冰镇蜜桃", "t피치아이스-d": "冰镇蜜桃", "t마이애미민트-n": "迈阿密薄荷", "t마이애미민트-d": "清凉薄荷糖", "t망고아이스-n": "冰芒果", "t망고아이스-d": "冰镇芒果", "t더블애플-n": "双苹果", "t더블애플-d": "红苹果与青苹果", "t그린그레이프-n": "青提葡萄", "t그린그레이프-d": "香甜青提", "t자스민티-n": "茉莉花茶", "t자스민티-d": "无糖茉莉绿茶"}, "en": {"strawberry-n": "Strawberry Yogurt", "strawberry-d": "Strawberries and yogurt, smooth", "alpo-n": "Aloe & Grape", "alpo-d": "Aloe meets grape", "aqua-n": "Aqua Blue Ocean", "aqua-d": "Mango, pineapple, dragon fruit, coconut", "pina-n": "Honey Piña Colada", "pina-d": "Piña colada cocktail", "lemonade-n": "Lemonade", "lemonade-d": "Bright, zesty lemonade", "peachmango-n": "Peach Mango", "peachmango-d": "Peach and mango", "pineapple-n": "Pineapple Apple", "pineapple-d": "Pineapple and apple", "watermelon-n": "Watermelon", "watermelon-d": "Ripe watermelon, as is", "peachice-n": "Peach Ice", "peachice-d": "Chilled peach", "mango-n": "Mango", "mango-d": "Ripe mango, as is", "miami-n": "Miami Mint", "miami-d": "Cool mint candy", "blueraz-n": "Blue Razz", "blueraz-d": "Blueberry and raspberry", "wmblue-n": "Watermelon Blueberry", "wmblue-d": "Watermelon with blueberry", "bluecherry-n": "Blueberry Cherry", "bluecherry-d": "Blueberry and cherry", "muscat-n": "Shine Muscat", "muscat-d": "Sweet green grapes", "t딸기요거트-n": "Strawberry Yogurt", "t딸기요거트-d": "Strawberries and yogurt, smooth", "t아쿠아-n": "Aqua", "t아쿠아-d": "Mango, pineapple, dragon fruit, coconut", "t핑크레몬에이드-n": "Pink Lemonade", "t핑크레몬에이드-d": "Bright pink lemonade", "t쿨민트-n": "Cool Mint", "t쿨민트-d": "Clean mint, no sweetness", "t피치아이스-n": "Peach Ice", "t피치아이스-d": "Chilled peach", "t마이애미민트-n": "Miami Mint", "t마이애미민트-d": "Cool mint candy", "t망고아이스-n": "Mango Ice", "t망고아이스-d": "Chilled mango", "t더블애플-n": "Double Apple", "t더블애플-d": "Red apple and green apple", "t그린그레이프-n": "Green Grape", "t그린그레이프-d": "Sweet green grapes", "t자스민티-n": "Jasmine Tea", "t자스민티-d": "Unsweetened jasmine green tea"}, "ru": {"strawberry-n": "Клубничный йогурт", "strawberry-d": "Клубника и йогурт, мягко", "alpo-n": "Алоэ и виноград", "alpo-d": "Алоэ в паре с виноградом", "aqua-n": "Аква Блю Оушен", "aqua-d": "Манго, ананас, питайя, кокос", "pina-n": "Медовая пина колада", "pina-d": "Вкус коктейля пина колада", "lemonade-n": "Лимонад", "lemonade-d": "Яркий лимонад", "peachmango-n": "Персик манго", "peachmango-d": "Персик и манго", "pineapple-n": "Ананас яблоко", "pineapple-d": "Ананас и яблоко", "watermelon-n": "Арбуз", "watermelon-d": "Спелый арбуз, как есть", "peachice-n": "Персик айс", "peachice-d": "Охлаждённый персик", "mango-n": "Манго", "mango-d": "Спелое манго, как есть", "miami-n": "Майами мята", "miami-d": "Прохладная мятная конфета", "blueraz-n": "Блю Разз", "blueraz-d": "Черника и малина", "wmblue-n": "Арбуз черника", "wmblue-d": "Арбуз с черникой", "bluecherry-n": "Черника вишня", "bluecherry-d": "Черника и вишня", "muscat-n": "Шайн Маскат", "muscat-d": "Сладкий зелёный виноград", "t딸기요거트-n": "Клубничный йогурт", "t딸기요거트-d": "Клубника и йогурт, мягко", "t아쿠아-n": "Аква", "t아쿠아-d": "Манго, ананас, питайя, кокос", "t핑크레몬에이드-n": "Розовый лимонад", "t핑크레몬에이드-d": "Яркий розовый лимонад", "t쿨민트-n": "Кул минт", "t쿨민트-d": "Чистая мята без сладости", "t피치아이스-n": "Персик айс", "t피치아이스-d": "Охлаждённый персик", "t마이애미민트-n": "Майами мята", "t마이애미민트-d": "Прохладная мятная конфета", "t망고아이스-n": "Манго айс", "t망고아이스-d": "Охлаждённое манго", "t더블애플-n": "Двойное яблоко", "t더블애플-d": "Красное и зелёное яблоко", "t그린그레이프-n": "Зелёный виноград", "t그린그레이프-d": "Сладкий зелёный виноград", "t자스민티-n": "Жасминовый чай", "t자스민티-d": "Жасминовый зелёный чай без сахара"}};
 var I18N={
- en:{insth:"Install as an app",instd:"Open it straight from your home screen",instb:"Install",iosh:"Add to Home Screen",ios1:"Tap the share button below",ios2:"Choose “Add to Home Screen”",iosc:"Close",fdwhere:"Products with this flavor",sbname:"WEVAPE Incheon Airport · Unseo Station",sb3:"Getting there",sb3v:"AREX Unseo Station · 1 stop from Incheon Airport T1",payh:"Payment",pay1:"WeChat Pay",pay2:"Alipay",pay3:"Card",pay4:"Cash",sb1:"Hours",sb1v:"10:30 – 22:00 · open every day, all year",sb2:"Location",sb2v:"Butterfly Building 1F, in front of Unseo Station",mapb:"Open in maps",stripsub:"20% off per pod, any strength",k1h:"Light",k1d:"For first-timers, or when you want it easy. 15 flavors.",
+ en:{shb:"Share this page",shtx:"WEVAPE Incheon Airport · Unseo Station — products, flavors, prices",shok:"Link copied",insth:"Install as an app",instd:"Open it straight from your home screen",instb:"Install",iosh:"Add to Home Screen",ios1:"Tap the share button below",ios2:"Choose “Add to Home Screen”",iosc:"Close",fdwhere:"Products with this flavor",sbname:"WEVAPE Incheon Airport · Unseo Station",sb3:"Getting there",sb3v:"AREX Unseo Station · 1 stop from Incheon Airport T1",payh:"Payment",pay1:"WeChat Pay",pay2:"Alipay",pay3:"Card",pay4:"Cash",sb1:"Hours",sb1v:"10:30 – 22:00 · open every day, all year",sb2:"Location",sb2v:"Butterfly Building 1F, in front of Unseo Station",mapb:"Open in maps",stripsub:"20% off per pod, any strength",k1h:"Light",k1d:"For first-timers, or when you want it easy. 15 flavors.",
      k3h:"Strong",k3d:"High strength, but never harsh on the throat. 10 flavors.",
      pod175:"Pod ₩17,500 · 7 colors",pod175b:"Pod ₩17,500 · 5 colors",
      pod220:"Pod ₩22,000 · ₩17,600 each",pod250:"₩25,000 · Disposable",pasub2:"30000 PUFF · Disposable",
@@ -662,7 +679,7 @@ var I18N={
      onlyhere:"Available at this strength",f10:"10 flavors",flavh:"10 flavors · order by number",
      promotag:"4 = 5",promobot:"· ₩17,600 each",pa15note:"· ₩20,000 each · this offer only",
      c1:"4 pods",c2:"Device → pod swap",c3:"+1",c4:"5 total · each",foot2:"Prices are examples · ask our staff"},
- ru:{insth:"Установить как приложение",instd:"Открывайте прямо с главного экрана",instb:"Установить",iosh:"На главный экран",ios1:"Нажмите кнопку «Поделиться» внизу",ios2:"Выберите «На экран Домой»",iosc:"Закрыть",fdwhere:"Где есть этот вкус",sbname:"WEVAPE Аэропорт Инчхон · станция Унсо",sb3:"Как добраться",sb3v:"AREX, станция Унсо · одна остановка от Т1 аэропорта Инчхон",payh:"Оплата",pay1:"WeChat Pay",pay2:"Alipay",pay3:"Карта",pay4:"Наличные",sb1:"Часы",sb1v:"10:30 – 22:00 · круглый год, без выходных",sb2:"Адрес",sb2v:"Butterfly Building, 1 этаж, напротив станции Унсо",mapb:"Открыть на карте",stripsub:"Минус 20% за штуку при любой крепости",k1h:"Лёгкий",k1d:"Для первого раза или когда хочется полегче. 15 вкусов.",
+ ru:{shb:"Поделиться страницей",shtx:"WEVAPE Аэропорт Инчхон · станция Унсо — товары, вкусы, цены",shok:"Ссылка скопирована",insth:"Установить как приложение",instd:"Открывайте прямо с главного экрана",instb:"Установить",iosh:"На главный экран",ios1:"Нажмите кнопку «Поделиться» внизу",ios2:"Выберите «На экран Домой»",iosc:"Закрыть",fdwhere:"Где есть этот вкус",sbname:"WEVAPE Аэропорт Инчхон · станция Унсо",sb3:"Как добраться",sb3v:"AREX, станция Унсо · одна остановка от Т1 аэропорта Инчхон",payh:"Оплата",pay1:"WeChat Pay",pay2:"Alipay",pay3:"Карта",pay4:"Наличные",sb1:"Часы",sb1v:"10:30 – 22:00 · круглый год, без выходных",sb2:"Адрес",sb2v:"Butterfly Building, 1 этаж, напротив станции Унсо",mapb:"Открыть на карте",stripsub:"Минус 20% за штуку при любой крепости",k1h:"Лёгкий",k1d:"Для первого раза или когда хочется полегче. 15 вкусов.",
      k3h:"Крепкий",k3d:"Высокая крепость, но без резкости в горле. 10 вкусов.",
      pod175:"Картридж ₩17,500 · 7 цветов",pod175b:"Картридж ₩17,500 · 5 цветов",
      pod220:"Картридж ₩22,000 · ₩17,600 за штуку",pod250:"₩25,000 · Одноразовый",pasub2:"30000 затяжек · одноразовый",
@@ -686,7 +703,7 @@ var I18N={
      onlyhere:"Доступно при этой крепости",f10:"10 вкусов",flavh:"10 вкусов · заказывайте по номеру",
      promotag:"4 = 5",promobot:"· ₩17,600 за штуку",pa15note:"· ₩20,000 за штуку · только эта акция",
      c1:"4 картриджа",c2:"Устройство → картридж",c3:"+1",c4:"Всего 5 · за штуку",foot2:"Цены указаны для примера · спросите персонал"},
- ko:{insth:"앱으로 설치",instd:"홈 화면에서 바로 열 수 있습니다",instb:"설치",iosh:"홈 화면에 추가",ios1:"아래 공유 버튼을 누르세요",ios2:"‘홈 화면에 추가’를 선택하세요",iosc:"닫기",fdwhere:"이 맛을 살 수 있는 제품",sbname:"WEVAPE 인천공항 운서역점",sb3:"가는 길",sb3v:"공항철도 운서역 · 인천공항 T1에서 한 정거장",payh:"결제 수단",pay1:"위챗페이",pay2:"알리페이",pay3:"카드",pay4:"현금",sb1:"영업",sb1v:"10:30 – 22:00 · 365일 연중무휴",sb2:"위치",sb2v:"운서역 앞 버터플라이 빌딩 1층",mapb:"지도에서 보기",stripsub:"어느 강도든 개당 20% 저렴",k1h:"가볍게",k1d:"처음이시거나 부담 없이 쓰고 싶을 때. 맛은 15종입니다.",k3h:"확실하게",k3d:"고농도인데 목 넘김이 거칠지 않습니다. 맛은 10종입니다.",pod175:"팟 ₩17,500 · 색상 7종",pod175b:"팟 ₩17,500 · 색상 5종",pod220:"팟 ₩22,000 · 개당 ₩17,600",pod250:"₩25,000 · 일회용",pasub2:"30000 퍼프 · 일회용",g1h:"1 · 강도를 고릅니다",g1a:"가볍게. 처음이시면 여기부터.",g1b:"확실하게. VIP 매장에만 있는 한정.",g2h:"2 · 기기를 고릅니다",g2a:"팟 교체형",g2a2:"기기를 사고 맛(팟)을 바꿔 끼웁니다. 색상을 고를 수 있습니다.",g2b:"일회용",g2b2:"사서 바로 쓰고 다 쓰면 버립니다. 충전도 교체도 없습니다.",g3h:"3 · 맛을 고릅니다",g3a:"단",g3a2:"달콤한 정도",g3b:"쿨",g3b2:"시원한 정도",g4h:"4 · 4개를 사면 5개",g4a:"팟 4개를 사시면 기기를 드립니다. 기기가 이미 있으시면 팟으로 바꿔 드려 총 5개가 됩니다. 어느 강도든 개당 20% 저렴해집니다.",gateq:"만 19세 이상이신가요?",gates:"니코틴이 포함된 제품을 판매합니다.",gyes:"네, 19세 이상입니다",gno:"아니오",gdeny:"미성년자는 이용하실 수 없습니다.",
+ ko:{shb:"이 페이지 공유하기",shtx:"위베이프 인천공항 운서역점 — 제품·맛·가격",shok:"주소가 복사되었습니다",insth:"앱으로 설치",instd:"홈 화면에서 바로 열 수 있습니다",instb:"설치",iosh:"홈 화면에 추가",ios1:"아래 공유 버튼을 누르세요",ios2:"‘홈 화면에 추가’를 선택하세요",iosc:"닫기",fdwhere:"이 맛을 살 수 있는 제품",sbname:"WEVAPE 인천공항 운서역점",sb3:"가는 길",sb3v:"공항철도 운서역 · 인천공항 T1에서 한 정거장",payh:"결제 수단",pay1:"위챗페이",pay2:"알리페이",pay3:"카드",pay4:"현금",sb1:"영업",sb1v:"10:30 – 22:00 · 365일 연중무휴",sb2:"위치",sb2v:"운서역 앞 버터플라이 빌딩 1층",mapb:"지도에서 보기",stripsub:"어느 강도든 개당 20% 저렴",k1h:"가볍게",k1d:"처음이시거나 부담 없이 쓰고 싶을 때. 맛은 15종입니다.",k3h:"확실하게",k3d:"고농도인데 목 넘김이 거칠지 않습니다. 맛은 10종입니다.",pod175:"팟 ₩17,500 · 색상 7종",pod175b:"팟 ₩17,500 · 색상 5종",pod220:"팟 ₩22,000 · 개당 ₩17,600",pod250:"₩25,000 · 일회용",pasub2:"30000 퍼프 · 일회용",g1h:"1 · 강도를 고릅니다",g1a:"가볍게. 처음이시면 여기부터.",g1b:"확실하게. VIP 매장에만 있는 한정.",g2h:"2 · 기기를 고릅니다",g2a:"팟 교체형",g2a2:"기기를 사고 맛(팟)을 바꿔 끼웁니다. 색상을 고를 수 있습니다.",g2b:"일회용",g2b2:"사서 바로 쓰고 다 쓰면 버립니다. 충전도 교체도 없습니다.",g3h:"3 · 맛을 고릅니다",g3a:"단",g3a2:"달콤한 정도",g3b:"쿨",g3b2:"시원한 정도",g4h:"4 · 4개를 사면 5개",g4a:"팟 4개를 사시면 기기를 드립니다. 기기가 이미 있으시면 팟으로 바꿔 드려 총 5개가 됩니다. 어느 강도든 개당 20% 저렴해집니다.",gateq:"만 19세 이상이신가요?",gates:"니코틴이 포함된 제품을 판매합니다.",gyes:"네, 19세 이상입니다",gno:"아니오",gdeny:"미성년자는 이용하실 수 없습니다.",
      ltd20:"VIP STORE ONLY",heroh:"찾으셨다면, 행운입니다",heros:"국내 20개 VIP 매장에서만 판매합니다.",
      bykick:"강도로 고르기",guide:"잘 모르겠다면 →",k1:"가볍게",k3:"확실하게",ltd:"한정",
      byprod:"제품으로 고르기",gcsub:"30000 퍼프 · 맛 25종",pasub:"30000 퍼프 · 맛 10종",g2sub:"30000 퍼프 · 맛 15종",
@@ -698,7 +715,7 @@ var I18N={
      onlyhere:"이 강도로 살 수 있는 제품",f10:"맛 10종",flavh:"맛 10종 · 번호로 주문하세요",
      promotag:"4개 = 5개",promobot:"· 개당 ₩17,600",pa15note:"· 개당 ₩20,000 · 이 행사만",
      c1:"팟 4개",c2:"기기 → 팟 교환",c3:"+1개",c4:"총 5개 · 개당",foot2:"가격은 예시입니다 · 문의는 매장 직원에게"},
- ja:{insth:"アプリとして追加",instd:"ホーム画面からすぐ開けます",instb:"追加",iosh:"ホーム画面に追加",ios1:"下の共有ボタンを押します",ios2:"「ホーム画面に追加」を選びます",iosc:"閉じる",fdwhere:"このフレーバーが買える製品",sbname:"WEVAPE 仁川空港ウンソ駅店",sb3:"行き方",sb3v:"空港鉄道ウンソ(雲西)駅 · 仁川空港T1から1駅",payh:"お支払い方法",pay1:"WeChat Pay",pay2:"Alipay",pay3:"カード",pay4:"現金",sb1:"営業",sb1v:"10:30 – 22:00 · 年中無休",sb2:"場所",sb2v:"ウンソ駅前 バタフライビル 1F",mapb:"地図で見る",stripsub:"どの強さでも1個あたり20%お得",k1h:"軽め",k1d:"初めての方や、気軽に使いたいときに。フレーバーは15種。",k3h:"しっかり",k3d:"高濃度でも喉あたりが荒くありません。フレーバーは10種。",pod175:"ポッド ₩17,500・カラー7色",pod175b:"ポッド ₩17,500・カラー5色",pod220:"ポッド ₩22,000・1個 ₩17,600",pod250:"₩25,000・使い捨て",pasub2:"30000パフ・使い捨て",g1h:"1 · 強さを選ぶ",g1a:"軽め。初めての方はこちらから。",g1b:"しっかり。VIP店舗だけの限定。",g2h:"2 · 本体を選ぶ",g2a:"ポッド交換式",g2a2:"本体を買って、フレーバー(ポッド)を差し替えます。カラーが選べます。",g2b:"使い捨て",g2b2:"買ってすぐ使い、使い切ったら捨てます。充電も交換も不要。",g3h:"3 · フレーバーを選ぶ",g3a:"甘",g3a2:"甘さの度合い",g3b:"冷",g3b2:"冷たさの度合い",g4h:"4 · 4個買うと5個",g4a:"ポッド4個のご購入でデバイスを差し上げます。すでにお持ちの方はポッドと交換で合計5個。どの強さでも1個あたり20%お得です。",gateq:"満19歳以上ですか？",gates:"ニコチンを含む製品を販売しています。",gyes:"はい、19歳以上です",gno:"いいえ",gdeny:"未成年の方はご利用いただけません。",
+ ja:{shb:"このページを共有",shtx:"WEVAPE 仁川空港ウンソ駅店 — 製品・フレーバー・価格",shok:"リンクをコピーしました",insth:"アプリとして追加",instd:"ホーム画面からすぐ開けます",instb:"追加",iosh:"ホーム画面に追加",ios1:"下の共有ボタンを押します",ios2:"「ホーム画面に追加」を選びます",iosc:"閉じる",fdwhere:"このフレーバーが買える製品",sbname:"WEVAPE 仁川空港ウンソ駅店",sb3:"行き方",sb3v:"空港鉄道ウンソ(雲西)駅 · 仁川空港T1から1駅",payh:"お支払い方法",pay1:"WeChat Pay",pay2:"Alipay",pay3:"カード",pay4:"現金",sb1:"営業",sb1v:"10:30 – 22:00 · 年中無休",sb2:"場所",sb2v:"ウンソ駅前 バタフライビル 1F",mapb:"地図で見る",stripsub:"どの強さでも1個あたり20%お得",k1h:"軽め",k1d:"初めての方や、気軽に使いたいときに。フレーバーは15種。",k3h:"しっかり",k3d:"高濃度でも喉あたりが荒くありません。フレーバーは10種。",pod175:"ポッド ₩17,500・カラー7色",pod175b:"ポッド ₩17,500・カラー5色",pod220:"ポッド ₩22,000・1個 ₩17,600",pod250:"₩25,000・使い捨て",pasub2:"30000パフ・使い捨て",g1h:"1 · 強さを選ぶ",g1a:"軽め。初めての方はこちらから。",g1b:"しっかり。VIP店舗だけの限定。",g2h:"2 · 本体を選ぶ",g2a:"ポッド交換式",g2a2:"本体を買って、フレーバー(ポッド)を差し替えます。カラーが選べます。",g2b:"使い捨て",g2b2:"買ってすぐ使い、使い切ったら捨てます。充電も交換も不要。",g3h:"3 · フレーバーを選ぶ",g3a:"甘",g3a2:"甘さの度合い",g3b:"冷",g3b2:"冷たさの度合い",g4h:"4 · 4個買うと5個",g4a:"ポッド4個のご購入でデバイスを差し上げます。すでにお持ちの方はポッドと交換で合計5個。どの強さでも1個あたり20%お得です。",gateq:"満19歳以上ですか？",gates:"ニコチンを含む製品を販売しています。",gyes:"はい、19歳以上です",gno:"いいえ",gdeny:"未成年の方はご利用いただけません。",
      ltd20:"VIP STORE ONLY",heroh:"見つけたあなたは、幸運です",heros:"韓国国内 20 の VIP 店舗のみで販売。",
      bykick:"強さで選ぶ",guide:"迷ったら →",k1:"軽め",k3:"しっかり",ltd:"限定",
      byprod:"製品で選ぶ",gcsub:"30000パフ・フレーバー25種",pasub:"30000パフ・フレーバー10種",g2sub:"30000パフ・フレーバー15種",
@@ -710,7 +727,7 @@ var I18N={
      onlyhere:"この強さで買える製品",f10:"フレーバー10種",flavh:"フレーバー10種 · 番号でご注文",
      promotag:"4個 = 5個",promobot:"· 1個あたり ₩17,600",pa15note:"· 1個 ₩20,000 · この特典のみ",
      c1:"ポッド4個",c2:"デバイス → ポッド交換",c3:"+1個",c4:"合計5個 · 1個あたり",foot2:"価格は参考です · ご不明な点はスタッフまで"},
- zh:{insth:"添加到主屏幕",instd:"下次不用扫码，直接打开",instb:"添加",iosh:"添加到主屏幕",ios1:"点击下方的分享按钮",ios2:"选择「添加到主屏幕」",iosc:"关闭",fdwhere:"可以买到这个口味的产品",sbname:"WEVAPE 仁川机场云西站店",sb3:"怎么走",sb3v:"机场铁路云西站 · 距仁川机场T1一站",payh:"支付方式",pay1:"微信支付",pay2:"支付宝",pay3:"银行卡",pay4:"现金",sb1:"营业",sb1v:"10:30 – 22:00 · 全年无休",sb2:"位置",sb2v:"云西站前 Butterfly 大厦 1层",mapb:"在地图上查看",stripsub:"任何浓度每个都便宜20%",k1h:"清淡",k1d:"第一次或想轻松使用时。共15种口味。",k3h:"浓郁",k3d:"浓度高但入喉不刺激。共10种口味。",pod175:"烟弹 ₩17,500 · 7种颜色",pod175b:"烟弹 ₩17,500 · 5种颜色",pod220:"烟弹 ₩22,000 · 每个 ₩17,600",pod250:"₩25,000 · 一次性",pasub2:"30000口 · 一次性",g1h:"1 · 选浓郁度",g1a:"清淡。第一次建议从这里开始。",g1b:"浓郁。只有VIP门店才有的限定。",g2h:"2 · 选设备",g2a:"可换弹",g2a2:"购买设备后更换口味(烟弹)。可以选颜色。",g2b:"一次性",g2b2:"买了直接用，用完丢弃。无需充电和更换。",g3h:"3 · 选口味",g3a:"甜",g3a2:"香甜程度",g3b:"冰",g3b2:"清凉程度",g4h:"4 · 买四得五",g4a:"购买4个烟弹赠送设备。已有设备可换成烟弹，合计5个。任何浓度每个都便宜20%。",gateq:"您已满19岁了吗？",gates:"本店销售含尼古丁产品。",gyes:"是，我已满19岁",gno:"否",gdeny:"未成年人无法使用本页面。",
+ zh:{shb:"分享这个页面",shtx:"WEVAPE 仁川机场云西站店 — 产品·口味·价格",shok:"链接已复制",insth:"添加到主屏幕",instd:"下次不用扫码，直接打开",instb:"添加",iosh:"添加到主屏幕",ios1:"点击下方的分享按钮",ios2:"选择「添加到主屏幕」",iosc:"关闭",fdwhere:"可以买到这个口味的产品",sbname:"WEVAPE 仁川机场云西站店",sb3:"怎么走",sb3v:"机场铁路云西站 · 距仁川机场T1一站",payh:"支付方式",pay1:"微信支付",pay2:"支付宝",pay3:"银行卡",pay4:"现金",sb1:"营业",sb1v:"10:30 – 22:00 · 全年无休",sb2:"位置",sb2v:"云西站前 Butterfly 大厦 1层",mapb:"在地图上查看",stripsub:"任何浓度每个都便宜20%",k1h:"清淡",k1d:"第一次或想轻松使用时。共15种口味。",k3h:"浓郁",k3d:"浓度高但入喉不刺激。共10种口味。",pod175:"烟弹 ₩17,500 · 7种颜色",pod175b:"烟弹 ₩17,500 · 5种颜色",pod220:"烟弹 ₩22,000 · 每个 ₩17,600",pod250:"₩25,000 · 一次性",pasub2:"30000口 · 一次性",g1h:"1 · 选浓郁度",g1a:"清淡。第一次建议从这里开始。",g1b:"浓郁。只有VIP门店才有的限定。",g2h:"2 · 选设备",g2a:"可换弹",g2a2:"购买设备后更换口味(烟弹)。可以选颜色。",g2b:"一次性",g2b2:"买了直接用，用完丢弃。无需充电和更换。",g3h:"3 · 选口味",g3a:"甜",g3a2:"香甜程度",g3b:"冰",g3b2:"清凉程度",g4h:"4 · 买四得五",g4a:"购买4个烟弹赠送设备。已有设备可换成烟弹，合计5个。任何浓度每个都便宜20%。",gateq:"您已满19岁了吗？",gates:"本店销售含尼古丁产品。",gyes:"是，我已满19岁",gno:"否",gdeny:"未成年人无法使用本页面。",
      ltd20:"VIP STORE ONLY",heroh:"能找到，就是运气",heros:"仅在韩国 20 家 VIP 门店销售。",
      bykick:"按浓郁度选",guide:"不确定的话 →",k1:"清淡",k3:"浓郁",ltd:"限定",
      byprod:"按产品选",gcsub:"30000口 · 25种口味",pasub:"30000口 · 10种口味",g2sub:"30000口 · 15种口味",
@@ -932,6 +949,48 @@ setLang(detectLang());
 try{ history.replaceState({s:'home'},'',location.pathname+location.search); }catch(e){}
 track('open','home');
 runDeep();
+
+/* ---- 페이지 공유 ---- */
+(function(){
+  var btn = document.getElementById('sharebtn');
+  var el  = document.getElementById('toast');
+  if(!btn) return;
+  var timer = null;
+  function toast(msg){
+    if(!el) return;
+    el.textContent = msg; el.hidden = false;
+    clearTimeout(timer); timer = setTimeout(function(){ el.hidden = true; }, 2200);
+  }
+  function copy(text){
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      return navigator.clipboard.writeText(text);
+    }
+    return new Promise(function(res, rej){
+      try{
+        var t=document.createElement('textarea');
+        t.value=text; t.setAttribute('readonly','');
+        t.style.cssText='position:fixed;top:-999px;opacity:0';
+        document.body.appendChild(t); t.select(); t.setSelectionRange(0, text.length);
+        var ok=document.execCommand('copy'); document.body.removeChild(t);
+        ok ? res() : rej();
+      }catch(e){ rej(e); }
+    });
+  }
+  btn.addEventListener('click', function(){
+    var L = (typeof LANG!=='undefined' && I18N[LANG]) ? LANG : 'ko';
+    var d = I18N[L] || I18N.ko;
+    var url = location.origin + location.pathname;
+    if(navigator.share){
+      navigator.share({ title: 'WEVAPE', text: d.shtx, url: url })
+        .then(function(){ track('share','native'); })
+        .catch(function(){});
+      return;
+    }
+    copy(url).then(function(){ toast(d.shok); track('share','copy'); })
+             .catch(function(){ window.prompt(d.shb, url); track('share','prompt'); });
+  });
+})();
+
 
 /* ---- 홈 화면 설치 ---- */
 (function(){
